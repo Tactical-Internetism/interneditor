@@ -4,15 +4,29 @@
 
 'use strict';
 
-function click(e) {
+function colorClicked(e) {
   chrome.tabs.executeScript(null,
-      {code:"document.body.style.backgroundColor='" + e.target.id + "'"});
-  window.close();
+    {code:"document.body.style.backgroundColor='" + e.target.id + "'"});
+  //window.close();
+}
+
+function stickersCheckboxClicked(e) {
+  if (e.target.checked) {
+    chrome.tabs.executeScript(null,
+      {file:"stickers.js"});
+  } else {
+    // THIS DOESN'T WORK
+    chrome.tabs.executeScript(null,
+      {code:"document.removeEventListener('click');"});
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  var divs = document.querySelectorAll('div');
-  for (var i = 0; i < divs.length; i++) {
-    divs[i].addEventListener('click', click);
+  var colorDivs = document.querySelectorAll('.color');
+  for (var i = 0; i < colorDivs.length; i++) {
+    colorDivs[i].addEventListener('click', colorClicked);
   }
+
+  var stickersCheckbox = document.querySelector('input');
+  stickersCheckbox.addEventListener('click', stickersCheckboxClicked);
 });
