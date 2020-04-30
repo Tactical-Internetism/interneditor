@@ -15,18 +15,15 @@ class Edit {
         contents: content specific to the type of edit
 
     */
-    type = null;
-
     constructor(contents){
+        this.type = null;
         this.contents = contents;
-        this.editPage();
     }
 
-    function editPage() {
-        pass;
+    editPage() {
     }
 
-    function stringify() {
+    stringify() {
         editObject = {
             type: this.type, 
             contents: this.contents,
@@ -42,11 +39,39 @@ export class BackgroundEdit extends Edit {
         color: color the background should be changed to
     
     */
-    type = "background";
+    constructor(contents){
+        super(contents);
+        this.type = "background";
+        this.editPage();
+    }
 
-    function editPage() {
+    editPage() {
         chrome.tabs.executeScript(null, {
-            code:"document.body.sty;e.backgroundColor='" + this.contents.color + "'"
+            code:"document.body.style.backgroundColor='" + this.contents.color + "'"
+            });
+    }
+}
+
+export class StickerEdit extends Edit {
+    /* contents of StickerEdit object:
+
+        xpos:           x position of the sticker
+        ypos:           y position of the sticker
+        stickerType:    image or text
+        sticker:        path to sticker file or sticker text
+    
+    */
+    constructor(contents){
+        super(contents);
+        this.type = "sticker";
+        this.editPage();
+    }
+
+    editPage() {
+        var script = "var node = document.createElement(\"DIV\");node.setAttribute(\"id\", \"tactical_internetism_temp_sticker_id\");node.setAttribute(\"style\", `position:absolute;top:${" + this.contents.ypos + "}px;left:${" + this.contents.xpos + "}px;z-index:1000`);var textnode = document.createTextNode(\"" + this.contents.sticker + "\");node.appendChild(textnode);document.body.appendChild(node);"
+        //document.getElementById("tactical_internetism_temp_sticker_id").style.transform("translate(50px,50px)");
+        chrome.tabs.executeScript(null, {
+            code:script
             });
     }
 }
