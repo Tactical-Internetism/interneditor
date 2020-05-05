@@ -1,18 +1,24 @@
 // Copyright (c) 2012 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
+'use strict';
 
 import {BackgroundEdit, StickerEdit} from './edit.js';
 import {PageEdits, PageList} from './page.js';
 
-'use strict';
-
-function editPageCheckboxClicked(e) {
-    if (e.target.checked) {
-        chrome.tabs.query({"active":true},function(tab){beginEditingPage(tab[0].url);});
-    } else {
-        currPage = null;
-    }
+function saveCurrPageToPages() {
+    chrome.storage.sync.get(['currPage'], function (results) {
+        var currPage = results.currPage;
+        currPage = new PageEdits(currPage.url, currPage.edits);
+        console.log(currPage);
+        chrome.storage.sync.get(['userPageList'], function(results) {
+            var chromePagesStorage = results.userPageList;
+            var userPageList = new PageList(chromePagesStorage);
+            userPageList.removePageByURL(currPage.pageURL);
+            userPageList.addPage(currPage);
+            chrome.storage.sync.set({'userPageList': userPageList});
+        });
+    });
 }
 
 function addSticker(pageX, pageY) {
@@ -28,13 +34,21 @@ function addSticker(pageX, pageY) {
 }
     
 function colorClicked(e) {
-    if (currPage)  {
+    if (popupOptions["currPageEdit"])  {
+        console.log("color clicked");
         var contents = {
             "color": e.target.id,
         };
         var edit = new BackgroundEdit(contents);
-        currPage.edits.push(edit);
-        console.log(currPage);
+        chrome.storage.sync.get(["currPage"], function (results) {
+            console.log(results);
+            var currPage = results.currPage;
+            currPage = new PageEdits(currPage.url, currPage.edits);
+            console.log(currPage);
+            currPage.edits.push(edit);
+            chrome.storage.sync.set({"currPage": currPage});
+        });
+        saveCurrPageToPages();
     }
   //window.close();
 }
@@ -47,30 +61,23 @@ function stickersCheckboxClicked(e) {
     }
 }
 
-function beginEditingPage(url){
-    /* Wrapper function used to store chrome tab url.
-    Should be used in callback function to chrome.tabs.query()
-    Necessary because query() is asynchronous.
-
-    surely there is a better way to do this??
+function setIconActionEventListeners() {
+    /* set event listeners for background color selection and sticker checkbox
     */
-    console.log("popup url: " + url);
-    var page = pages.findPageByURL(url);
-    // if page doesn't exist in database, make a new one
-    if (! page) {
-        page = new PageEdits(url);
-        pages.addPage(page);
-    }
-    console.log(page);
-    currPage = page;
-    // set event listeners for icon actions
     var colorDivs = document.querySelectorAll('.color');
     for (var i = 0; i < colorDivs.length; i++) {
       colorDivs[i].addEventListener('click', colorClicked);
     }
     var stickersCheckbox = document.querySelector('#stickers');
     stickersCheckbox.addEventListener('click', stickersCheckboxClicked);
-    // begin listening for window clicks
+}
+
+function beginListeningForWindowClicks() {
+    /* sets up a runtime connection to recieve messages from the content
+    script running on the current page. This allows the popup menu to recieve
+    info about how the user is interacting with the page (i.e. recording clicks)
+    for the purpose of determining  edits.
+    */
     chrome.tabs.executeScript(null,{file:"detect_window_mouse_events.js"});
     chrome.runtime.onConnect.addListener(function(port) {
         console.assert(port.name == "mouseclicks");
@@ -83,12 +90,47 @@ function beginEditingPage(url){
     });
 }
 
-var pages;
-var currPage;
-var popupOptions = {"stickers": false};
-
-export function initPopupMenu(backgroundPages) {
-    pages = backgroundPages;
-    var editPageCheckbox = document.querySelector('#edit-page');
-    editPageCheckbox.addEventListener('click', editPageCheckboxClicked);
+function beginEditingPage(url) {
+    /* Sets up a page to begin editing. If the page exists in the databases, adds
+    to the existing edits. If not, creates a new PageEdits object to track the 
+    edits on the page.
+    */
+    console.log("popup url: " + url);
+    chrome.storage.sync.get(['userPageList'], function(results) {
+        var chromePagesStorage = results.userPageList;
+        var userPageList = new PageList(chromePagesStorage);
+        var page = userPageList.findPageByURL(url);
+        if (! page) {
+            page = new PageEdits(url);
+            userPageList.addPage(page);
+            chrome.storage.sync.set({'userPageList': userPageList});
+        }
+        console.log(userPageList);
+        chrome.storage.sync.set({'currPage': page});
+    });
+    setIconActionEventListeners();
+    beginListeningForWindowClicks();
 }
+
+function editPageCheckboxClicked(e) {
+    /* If the checkbox to edit the page is clicked, calls the function to begin editing
+    the current page. Otherwise, sets the currPage to null to stop editing the page.
+    */
+    if (e.target.checked) {
+        popupOptions['currPageEdit'] = true;
+        chrome.tabs.query({"active":true},function(tab){beginEditingPage(tab[0].url);});
+    } else {
+        popupOptions['currPageEdit'] = false;
+        chrome.storage.sync.set({'currPage': null});
+    }
+}
+
+console.log("popup js running");
+
+var popupOptions = {
+    "currPageEdit": false,
+    "stickers": false
+};
+var editPageCheckbox = document.querySelector('#edit-page');
+editPageCheckbox.addEventListener('click', editPageCheckboxClicked);
+
