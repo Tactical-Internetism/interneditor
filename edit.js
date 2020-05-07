@@ -42,7 +42,6 @@ export class BackgroundEdit extends Edit {
     constructor(contents){
         super(contents);
         this.type = "background";
-        this.editPage();
     }
 
     editPage() {

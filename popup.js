@@ -10,11 +10,10 @@ function saveCurrPageToPages() {
     chrome.storage.sync.get(['currPage'], function (results) {
         var currPage = results.currPage;
         currPage = new PageEdits(currPage.url, currPage.edits);
-        console.log(currPage);
         chrome.storage.sync.get(['userPageList'], function(results) {
             var chromePagesStorage = results.userPageList;
             var userPageList = new PageList(chromePagesStorage);
-            userPageList.removePageByURL(currPage.pageURL);
+            userPageList.removePageByURL(currPage.url);
             userPageList.addPage(currPage);
             chrome.storage.sync.set({'userPageList': userPageList});
         });
@@ -29,8 +28,14 @@ function addSticker(pageX, pageY) {
         "sticker": "❤️",
     }
     var edit = new StickerEdit(contents);
-    currPage.edits.push(edit);
-    console.log(currPage);
+    edit.editPage();
+    chrome.storage.sync.get(["currPage"], function (results) {
+        var currPage = results.currPage;
+        currPage = new PageEdits(currPage.url, currPage.edits);
+        currPage.edits.push(edit);
+        chrome.storage.sync.set({"currPage": currPage});
+    });
+    saveCurrPageToPages();
 }
     
 function colorClicked(e) {
@@ -40,11 +45,10 @@ function colorClicked(e) {
             "color": e.target.id,
         };
         var edit = new BackgroundEdit(contents);
+        edit.editPage();
         chrome.storage.sync.get(["currPage"], function (results) {
-            console.log(results);
             var currPage = results.currPage;
             currPage = new PageEdits(currPage.url, currPage.edits);
-            console.log(currPage);
             currPage.edits.push(edit);
             chrome.storage.sync.set({"currPage": currPage});
         });
@@ -105,7 +109,6 @@ function beginEditingPage(url) {
             userPageList.addPage(page);
             chrome.storage.sync.set({'userPageList': userPageList});
         }
-        console.log(userPageList);
         chrome.storage.sync.set({'currPage': page});
     });
     setIconActionEventListeners();

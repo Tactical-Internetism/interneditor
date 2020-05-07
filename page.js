@@ -35,12 +35,13 @@ export class PageList {
         }
         return null;
     }
+    
 
     removePageByURL(url) {
         /*Finds a page by it's URL and removes it if it exists.
         */
-        this.pages = this.pages.filter( function(value, index, arr) {
-            return (url !== value.pageURL);
+        this.pages = this.pages.filter( function(value) {
+            return (url !== value.url);
         });
     }
 }
@@ -52,14 +53,25 @@ export class PageEdits {
         this.edits = []
         this.url = pageURL;
         if (edits) {
-            for (let j = 0; j < edits.length; j++) {
-                var edit = edits[j];
-                console.log(edit);
+            for (let i = 0; i < edits.length; i++) {
+                var edit = edits[i];
                 if (edit.type == "background") {
                     edit = new BackgroundEdit(edit.contents);
                 }
+                else if (edit.type == "sticker") {
+                    edit = new StickerEdit(edit.contents);
+                } else {
+                    throw "Edit type not defined";
+                }
                 this.edits.push(edit);
             }
+        }
+    }
+
+    applyEdits() {
+        for (let i = 0; i < this.edits.length; i++) {
+            var edit = this.edits[i];
+            edit.editPage();
         }
     }
 }

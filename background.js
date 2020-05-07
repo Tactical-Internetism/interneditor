@@ -2,16 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-
-function findPageByURL(userPageList, url) {
-    for (let i  = 0; i < userPageList.pages.length; i++) {
-        var page = userPageList.pages[i];
-        if (page.url == url) {
-            return page;
-        }
-    }
-    return null;
-}
+import {BackgroundEdit, StickerEdit} from './edit.js';
+import {PageEdits, PageList} from './page.js';
 
 function newPageOpened(url){
     /* Wrapper function used to store chrome tab url.
@@ -23,12 +15,12 @@ function newPageOpened(url){
     console.log("background url: " + url);
     // check if page already exists in database
     chrome.storage.sync.get(['userPageList'], function(results) {
-        var userPageList = results.userPageList;
-        console.log(userPageList);
-        var page = findPageByURL(userPageList, url);
+        var chromePagesStorage = results.userPageList;
+        var userPageList = new PageList(chromePagesStorage);
+        var page = userPageList.findPageByURL(url);
         if (page) {
             console.log("page found, loading edits");
-            // imple ment changes
+            page.applyEdits();
         }
     });
 }
@@ -36,6 +28,6 @@ function newPageOpened(url){
 console.log("background js running");
 
 chrome.webNavigation.onDOMContentLoaded.addListener( function (details) {
-    chrome.tabs.query({"active":true},function(tab){newPageOpened(tab[0].url);});
+    newPageOpened(details.url);
 });
 

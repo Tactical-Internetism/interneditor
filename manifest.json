@@ -5,10 +5,11 @@
     "permissions": [
       "activeTab",
       "storage",
-      "webNavigation"
+      "webNavigation",
+      "<all_urls>"
     ],
     "background" : {
-        "scripts": ["background.js"],
+        "page": "background.html",
         "persistent": false
     },
     "browser_action": {
