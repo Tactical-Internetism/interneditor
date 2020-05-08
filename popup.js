@@ -4,15 +4,16 @@
 
 'use strict';
 
-function click(e) {
+function cssOnClick(e) {
   chrome.tabs.executeScript(null,
-      {code:"document.body.style.backgroundColor='" + e.target.id + "'"});
-  window.close();
+    {code:"document.body.style." + e.target.className + "='" + e.target.id + "'"});
+    window.close();
 }
+
 
 document.addEventListener('DOMContentLoaded', function () {
   var divs = document.querySelectorAll('div');
   for (var i = 0; i < divs.length; i++) {
-    divs[i].addEventListener('click', click);
+    divs[i].addEventListener('click', cssOnClick);
   }
 });
