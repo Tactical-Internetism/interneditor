@@ -63,7 +63,6 @@ export class StickerEdit extends Edit {
     constructor(contents){
         super(contents);
         this.type = "sticker";
-        this.editPage();
     }
 
     editPage() {
