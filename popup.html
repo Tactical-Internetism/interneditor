@@ -23,17 +23,15 @@
   <script type="text/javascript" src="lib/jquery.min.js"></script>
   <link rel="stylesheet" href="popup.css">
   <link rel="stylesheet" href="lib/bootstrap.min.css">
-  <script src="lib/jquery-3.2.1.slim.min.js"></script>
   <script src="lib/bootstrap.bundle.js"></script>
   <script src="popup.js"></script>
-  <script src="lib/jquery-3.2.1.slim.min.js"></script>
-</hea
+</head>
 
 <body>
   <div class="container">
     <div class="row mt-3">
       <div class="col">
-        <h2>Tactical Internetism Toolbox </h2>
+        <h2>Tactical Toolbox </h2>
       </div>
     </div>
     <!-- <div class="row mt-2 align-items-center">
@@ -45,55 +43,41 @@
     <div class="row mt-3">
       <div class="col">
         <h4>Add Stickers</h4>
-        <div id="stickers"><input type="checkbox" /> &#x2764;</div>
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="stickers" checked>
+          <label class="custom-control-label" for="stickers">Sticker Mode On</label>
+        </div>
+        <button type="button" class="btn btn-outline-dark" id="stickerSelection">&#x2764;</button>
       </div>
     </div>
 
     <div class="row mt-3">
       <div class="col">
         <h4>Change Background Color</h4>
-          <button type="button" class="btn btn-outline-danger" id="red">Red</button>
-          <button type="button" class="btn btn-outline-primary" id="blue">Blue</button>
+          <button type="button" class="btn btn-outline-danger" id="#B22222">Red</button>
+          <button type="button" class="btn btn-outline-primary" id="#339FFF">Blue</button>
           <button type="button" class="btn btn-outline-success" id="green">Green</button>
-          <button type="button" class="btn btn-outline-warning" id="green">Yellow</button>
+          <button type="button" class="btn btn-outline-warning" id="yellow">Yellow</button>
+
       </div>
     </div>
 
-    <div class="row mt-5 align-items-end">
+    <div class="row mt-3">
       <div class="col">
-        <button class="btn btn-block btn-warning" id="leftButton">Privacy policy</button>
-      </div>
-      <div class="col">
-        <button class="btn btn-block btn-secondary" id="midButton">Report a bug</button>
-      </div>
-      <div class="col">
-        <button class="btn btn-block btn-danger" id="rightButton">Join testflight</button>
-      </div>
-    </div>
-    <div class="row mt-2">
-
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown button
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-      </div>
-</div>
-      <div class="col offset-8">
-          <div class="dropdown">
-            <button class="dropbtn">Fonts</button>
-            <div class="dropdown-content">
+        <h4>Change Font</h4>
+        <div class="dropdown">
+          <button type="button" class="btn btn-outline-dark">Select</button>
+          <div class="dropdown-content">
               <div class="fontFamily" id="Comic Sans MS,cursive,sans-serif">Comic Sans</div>
               <div class="fontFamily" id="Arial,Helvetica,sans-serif">Arial Helvetica</div>
               <div class="fontFamily" id="Courier New,Courier,monospace">Courier New</div>
               <div class="fontFamily" id="Impact,Charcoal,sans-serif">Impact</div>
               <div class="fontFamily" id="Times New Roman,Times,serif">Times New Roman</div>
-            </div>
           </div>
+        </div>
       </div>
+    </div>
+</div>
     </div>
 </body>
 
