@@ -1,14 +1,39 @@
 {
-  "name": "A browser action with a popup that changes the page color",
-  "description": "Change the current page color",
+  "name": "Tactical Internetism",
+  "description": "Spruce up your corner of the internet.",
   "version": "1.0",
   "permissions": [
     "activeTab"
+  ],
+  "content_scripts": [
+  {
+    "matches": [
+      "https://workersandbox.mturk.com/*",
+      "https://worker.mturk.com/*"
+    ],
+    "css": [
+      "lib/sweetalert2.css"
+    ],
+    "js": [
+      "lib/jquery.min.js",
+      "contentscript.js",
+      "lib/sweetalert.js",
+      "lib/sweetalert1.js",
+      "constants.js",
+      "vitae.js",
+      "mturk.js"
+    ]
+  }
   ],
   "browser_action": {
       "default_title": "Set this page's color.",
       "default_icon": "icon.png",
       "default_popup": "popup.html"
   },
+  "background":
+  {
+      "scripts": ["thirdParty/jquery-2.0.3.js"]
+  },
+  }
   "manifest_version": 2
 }

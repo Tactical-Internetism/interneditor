@@ -1,48 +1,8 @@
-<!doctype html>
+<!-- <!doctype html>
 <html>
   <head>
     <title>Set Page Color Popup</title>
     <style>
-    body {
-      overflow: hidden;
-      margin: 0px;
-      padding: 0px;
-      background: white;
-    }
-
-    div:first-child {
-      margin-top: 0px;
-    }
-
-    div {
-      cursor: pointer;
-      text-align: center;
-      padding: 1px 3px;
-      font-family: sans-serif;
-      font-size: 0.8em;
-      width: 100px;
-      margin-top: 1px;
-      background: #cccccc;
-    }
-    div:hover {
-      background: #aaaaaa;
-    }
-    #red {
-      border: 1px solid red;
-      color: red;
-    }
-    #blue {
-      border: 1px solid blue;
-      color: blue;
-    }
-    #green {
-      border: 1px solid green;
-      color: green;
-    }
-    #yellow {
-      border: 1px solid yellow;
-      color: yellow;
-    }
     </style>
     <script src="popup.js"></script>
   </head>
@@ -52,4 +12,54 @@
     <div id="green">green</div>
     <div id="yellow">yellow</div>
   </body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Tactical Internetism</title>
+  <script type="text/javascript" src="lib/jquery.min.js"></script>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="lib/bootstrap.min.css">
+  <script src="lib/jquery-3.2.1.slim.min.js"></script>
+  <script src="lib/bootstrap.min.js"></script>
+  <script src="popup.js"></script>
+  <script src="lib/jquery-3.2.1.slim.min.js"></script>
+  <script src="lib/popper.min.js"></script>
+</hea
+
+<body>
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col">
+        <h2>Tactical Internetism Toolbox </h2>
+      </div>
+    </div>
+    <div class="row mt-2 align-items-center">
+      <div class="col">
+        <button class='btn btn-primary btn-block btn-lg' id="viewTasks">See Vitae tasks</button>
+      </div>
+    </div>
+
+
+
+    <div class="row mt-5 align-items-end">
+      <div class="col">
+        <button class="btn btn-block btn-warning" id="leftButton">Privacy policy</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-block btn-secondary" id="midButton">Report a bug</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-block btn-danger" id="rightButton">Join testflight</button>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col offset-8">
+      </div>
+    </div>
+</body>
+
 </html>
