@@ -63,7 +63,6 @@ export class StickerEdit extends Edit {
     constructor(contents){
         super(contents);
         this.type = "sticker";
-        this.editPage();
     }
 
     editPage() {
@@ -72,5 +71,19 @@ export class StickerEdit extends Edit {
         chrome.tabs.executeScript(null, {
             code:script
             });
+    }
+}
+
+export class SprayPaintEdit extends Edit {
+    constructor(contents){
+        super(contents);
+        this.type = "spray_paint";
+    }
+
+    editPage() {
+        console.log("executing script...");
+        chrome.tabs.executeScript(null, {
+            file: "spray_paint.js"
+        })
     }
 }
