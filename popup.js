@@ -38,38 +38,6 @@ function addSticker(pageX, pageY) {
   saveCurrPageToPages();
 }
 
-function colorClicked(e) {
-  if (popupOptions["currPageEdit"]) {
-    console.log("color clicked");
-    var contents = {
-      color: e.target.id,
-    };
-    var edit = new BackgroundEdit(contents);
-    edit.editPage();
-    chrome.storage.sync.get(["currPage"], function (results) {
-      var currPage = results.currPage;
-      currPage = new PageEdits(currPage.url, currPage.edits);
-      currPage.edits.push(edit);
-      chrome.storage.sync.set({ currPage: currPage });
-    });
-    saveCurrPageToPages();
-  }
-  //window.close();
-}
-
-function stickersCheckboxClicked(e) {
-  if (e.target.checked) {
-    popupOptions["stickers"] = true;
-  } else {
-    popupOptions["stickers"] = false;
-  }
-}
-
-function sprayPaintCheckboxClicked() {
-  console.log("spray paint time");
-  var edit = new SprayPaintEdit({});
-  edit.editPage();
-}
 
 function setIconActionEventListeners() {
   /* set event listeners for background color selection and sticker checkbox
@@ -114,12 +82,49 @@ function beginEditingPage(url) {
   beginListeningForWindowClicks();
 }
 
+function getPopupState() {
+  return {
+    isEditing: editPageCheckbox.checked,
+    addSticker: stickerCheckbox.checked,
+    stickerValue: stickerSelect.value,
+    addPaint: sprayPaintCheckbox.checked,
+    paintColor: sprayPaintColorSelect.value
+  }
+}
+
 function editPageCheckboxClicked(e) {
   /* If the checkbox to edit the page is clicked, calls the function to begin editing
     the current page. Otherwise, sets the currPage to null to stop editing the page.
     */
   console.log("editPageCheckboxClicked: ", e.target.checked);
-  chrome.runtime.sendMessage({ isEditing: e.target.checked });
+  var popupState = getPopupState();
+  chrome.runtime.sendMessage({ popupState: popupState });
+}
+
+function stickerCheckboxClicked(e) {
+  console.log("stickerCheckboxClicked: ", e.target.checked);
+  sprayPaintCheckbox.checked = false;
+  var popupState = getPopupState();
+  chrome.runtime.sendMessage({ popupState: popupState });
+}
+
+function stickerSelected(e) {
+  console.log("stickerSelected: ", e.target.value);
+  var popupState = getPopupState();
+  chrome.runtime.sendMessage({ popupState: popupState });
+}
+
+function sprayPaintCheckboxClicked(e) {
+  console.log("sprayPaintCheckboxClicked: ", e.target.checked);
+  stickerCheckbox.checked = false;
+  var popupState = getPopupState();
+  chrome.runtime.sendMessage({ popupState: popupState });
+}
+
+function sprayPaintColorSelected(e) {
+  console.log("paintColorSelected: ", e.target.value);
+  var popupState = getPopupState();
+  chrome.runtime.sendMessage({ popupState: popupState });
 }
 
 console.log("popup js running");
@@ -141,12 +146,21 @@ var popupOptions = {
 
 chrome.runtime.sendMessage("getPopupState", function (response) {
   console.log("message response:", response);
-  editPageCheckbox.checked = response.isEditing;
-  // response.sticker
-  // response.font
-  // response.sprayPaint
-  // response.textReplace
+  editPageCheckbox.checked = response.popupState.isEditing;
+  stickerCheckbox.checked = response.popupState.addSticker;
+  stickerSelect.value = response.popupState.stickerValue;
+  sprayPaintCheckbox.checked = response.popupState.addPaint;
+  sprayPaintColorSelect.value = response.popupState.paintColor;
 });
 
 var editPageCheckbox = document.querySelector("#edit-page-checkbox");
+var stickerCheckbox = document.querySelector("#sticker-checkbox");
+console.log(stickerCheckbox);
+var stickerSelect = document.querySelector("#sticker-select");
+var sprayPaintCheckbox = document.querySelector("#spray-paint-checkbox");
+var sprayPaintColorSelect = document.querySelector("#spray-paint-color-select");
 editPageCheckbox.addEventListener("click", editPageCheckboxClicked);
+stickerCheckbox.addEventListener("click", stickerCheckboxClicked);
+stickerSelect.addEventListener("input", stickerSelected);
+sprayPaintCheckbox.addEventListener("click", sprayPaintCheckboxClicked);
+sprayPaintColorSelect.addEventListener("input", sprayPaintColorSelected);

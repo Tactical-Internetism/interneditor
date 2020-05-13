@@ -34,15 +34,15 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (!sender.tab) { // maybe some alternative logic
         // from popup
         if (request === "getPopupState") {
-            chrome.storage.sync.get({isEditing: false}, (results) => {
+            chrome.storage.sync.get(["popupState"], (results) => {
                 console.log(results);
-                sendResponse({ isEditing: results.isEditing });
+                sendResponse({ popupState: results.popupState });
             })
         } else {
             // set state using request...
-            if (request.isEditing !== null) {
-                chrome.storage.sync.set({isEditing: request.isEditing}, () => {
-                    console.log("set isEditing to: ", request.isEditing);
+            if (request.popupState) {
+                chrome.storage.sync.set({popupState: request.popupState}, () => {
+                    console.log("set popupState to: ", request.popupState);
                 });
             }
         }

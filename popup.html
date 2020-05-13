@@ -48,11 +48,24 @@
   </head>
   <body>
     <div id="edit-page"> Edit Page: <input type="checkbox" id="edit-page-checkbox" /></div>
-    <div id="red" class="color">red</div>
-    <div id="blue" class="color">blue</div>
-    <div id="green" class="color">green</div>
-    <div id="yellow" class="color">yellow</div>
-    <div id="stickers">Sticker Mode: <input type="checkbox" id="stickers-checkbox" /></div>
-    <div id="spray-paint">Spray Paint Mode: <input type="checkbox" id="spray-paint-checkbox"/></div>
+    <div id="stickers">
+      Sticker Mode: <input type="checkbox" id="sticker-checkbox" />
+      <select id="sticker-select" name="emojis">
+        <option value="love">&#10084</option>
+        <option value="laugh">&#128514</option>
+        <option value="wow">&#128558</option>
+        <option value="sad">&#128546</option>
+        <option value="angry">&#128544</option>
+        <option value="like">&#128077</option>
+        <option value="dislike">&#128078</option>
+      </select> 
+    </div>
+
+    <div id="spray-paint">
+      Spray Paint Mode: <input type="checkbox" id="spray-paint-checkbox"/>
+      <input type="color" 
+        id="spray-paint-color-select" name="spray-paint-color-select"
+        value="#e66465">
+    </div>
   </body>
 </html>
