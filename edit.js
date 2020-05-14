@@ -20,7 +20,7 @@ class Edit {
         this.contents = contents;
     }
 
-    editPage() {
+    editPage(tabId) {
     }
 
     stringify() {
@@ -44,8 +44,8 @@ export class BackgroundEdit extends Edit {
         this.type = "background";
     }
 
-    editPage() {
-        chrome.tabs.executeScript(null, {
+    editPage(tabId) {
+        chrome.tabs.executeScript(tabId, {
             code:"document.body.style.backgroundColor='" + this.contents.color + "'"
             });
     }
@@ -65,10 +65,10 @@ export class StickerEdit extends Edit {
         this.type = "sticker";
     }
 
-    editPage() {
+    editPage(tabId) {
         var script = "var node = document.createElement(\"DIV\");node.setAttribute(\"id\", \"tactical_internetism_temp_sticker_id\");node.setAttribute(\"style\", `position:absolute;top:${" + this.contents.ypos + "}px;left:${" + this.contents.xpos + "}px;z-index:1000`);var textnode = document.createTextNode(\"" + this.contents.sticker + "\");node.appendChild(textnode);document.body.appendChild(node);"
         //document.getElementById("tactical_internetism_temp_sticker_id").style.transform("translate(50px,50px)");
-        chrome.tabs.executeScript(null, {
+        chrome.tabs.executeScript(tabId, {
             code:script
             });
     }
@@ -80,9 +80,9 @@ export class SprayPaintEdit extends Edit {
         this.type = "spray_paint";
     }
 
-    editPage() {
+    editPage(tabId) {
         console.log("executing script...");
-        chrome.tabs.executeScript(null, {
+        chrome.tabs.executeScript(tabId, {
             file: "spray_paint.js"
         })
     }

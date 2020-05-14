@@ -6,60 +6,6 @@
 import { BackgroundEdit, StickerEdit, SprayPaintEdit } from "./edit.js";
 import { PageEdits, PageList } from "./page.js";
 
-function saveCurrPageToPages() {
-  chrome.storage.sync.get(["currPage"], function (results) {
-    var currPage = results.currPage;
-    currPage = new PageEdits(currPage.url, currPage.edits);
-    chrome.storage.sync.get(["userPageList"], function (results) {
-      var chromePagesStorage = results.userPageList;
-      var userPageList = new PageList(chromePagesStorage);
-      userPageList.removePageByURL(currPage.url);
-      userPageList.addPage(currPage);
-      chrome.storage.sync.set({ userPageList: userPageList });
-    });
-  });
-}
-
-function addSticker(pageX, pageY) {
-  var contents = {
-    xpos: pageX,
-    ypos: pageY,
-    stickerType: "text",
-    sticker: "❤️",
-  };
-  var edit = new StickerEdit(contents);
-  edit.editPage();
-  chrome.storage.sync.get(["currPage"], function (results) {
-    var currPage = results.currPage;
-    currPage = new PageEdits(currPage.url, currPage.edits);
-    currPage.edits.push(edit);
-    chrome.storage.sync.set({ currPage: currPage });
-  });
-  saveCurrPageToPages();
-}
-
-
-function setIconActionEventListeners() {
-  /* set event listeners for background color selection and sticker checkbox
-   */
-  var colorDivs = document.querySelectorAll(".color");
-  for (var i = 0; i < colorDivs.length; i++) {
-    colorDivs[i].addEventListener("click", colorClicked);
-  }
-  var stickersCheckbox = document.querySelector("#stickers");
-  stickersCheckbox.addEventListener("click", stickersCheckboxClicked);
-  var sprayPaintCheckbox = document.querySelector("#spray-paint");
-  sprayPaintCheckbox.addEventListener("click", sprayPaintCheckboxClicked);
-}
-
-function beginListeningForWindowClicks() {
-  /* sets up a runtime connection to recieve messages from the content
-    script running on the current page. This allows the popup menu to recieve
-    info about how the user is interacting with the page (i.e. recording clicks)
-    for the purpose of determining edits.
-    */
-  chrome.tabs.executeScript(null, { file: "detect_window_mouse_events.js" });
-}
 
 function beginEditingPage(url) {
   /* Sets up a page to begin editing. If the page exists in the databases, adds
