@@ -14,7 +14,7 @@
       margin-top: 0px;
     }
 
-    div {
+    div.color {
       cursor: pointer;
       text-align: center;
       padding: 1px 3px;
@@ -24,7 +24,7 @@
       margin-top: 1px;
       background: #cccccc;
     }
-    div:hover {
+    div.color:hover {
       background: #aaaaaa;
     }
     #red {
@@ -44,12 +44,14 @@
       color: yellow;
     }
     </style>
-    <script src="popup.js"></script>
+    <script type="module" src="popup.js"></script>
   </head>
   <body>
-    <div id="red">red</div>
-    <div id="blue">blue</div>
-    <div id="green">green</div>
-    <div id="yellow">yellow</div>
+    <div id="edit-page"> Edit Page: <input type="checkbox" /></div>
+    <div id="red" class="color">red</div>
+    <div id="blue" class="color">blue</div>
+    <div id="green" class="color">green</div>
+    <div id="yellow" class="color">yellow</div>
+    <div id="stickers">Sticker Mode: <input type="checkbox" /></div>
   </body>
 </html>
