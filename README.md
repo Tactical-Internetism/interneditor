@@ -19,8 +19,8 @@ palates, and the average user has limited to no agency to manipulate their space
 users cannot create, reshape, and hack the spaces they use, how can we create vibrant and sustainable internet cultures that are
 diverse, interesting, and representative of the people who participate in them?
 
-Inspired by tactical urbanists who seek to reconfigure physical spaces to change how they work and are percieved, Tacitical Internetism
-seeks to develop new tools to create and expereince the internet that diminish the divide between user and creator.
+**Inspired by tactical urbanists who seek to reconfigure physical spaces to change how they work and are percieved, Tacitical Internetism
+seeks to develop new tools to create and expereince the internet that diminish the divide between user and creator.**
 
 # Setup
 1. Clone this repo onto your computer: `git clone https://github.com/Tactical-Internetism/tactical_internetism.git`
