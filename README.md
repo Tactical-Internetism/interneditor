@@ -11,7 +11,7 @@
 In the 50s, Jane Jacobs wrote about the beauty of her nook of New York City, Greenwich Village, and the importance of peoples' everyday
 influence on the culture of the neighborhood. Today, we see cultural and aesthic elements of Greenwich Village imported into cities 
 around the world by designers, entreprenuers, city planners, and gentrifiers. However, these imports come without the soul that so 
-inspired Jacobs and are often implemented to the detriment of local and historic cultures that already exist in a place. A vibrant and
+inspired Jacobs and are often imposed to the detriment of local and historic cultures that already exist in a place. A vibrant and
 sustainable culture cannot be imported. It must be created, collectively and progressively, by the residents of a place.
 
 In 2020, we are concerned about a similar phenomenon arising in digital spaces. On a web where minimalism reigns, colors exist only in 
