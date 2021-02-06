@@ -58,7 +58,7 @@
 }
 
 /* Dropdown Content (Hidden by Default) */
-.dropdown-content {
+#dropdown-fonts {
   display: none;
   position: absolute;
 
@@ -68,7 +68,7 @@
 }
 
 /* Links inside the dropdown */
-.dropdown-content a {
+#dropdown-fonts a {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
@@ -76,16 +76,17 @@
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd;}
+#dropdown-fonts a:hover {background-color: #ddd;}
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover #dropdown-fonts {display: block;}
 
 
     </style>
     <script type="module" src="popup.js"></script>
   </head>
   <body>
+  <div class="container" style="width:200px;">
     <div id="edit-page"> Edit Page: <input type="checkbox" id="edit-page-checkbox" /></div>
     <div id="stickers">
       Sticker Mode: <input type="checkbox" id="sticker-checkbox" />
@@ -107,7 +108,7 @@
     </div>
     <div class="dropdown">
       <button class="dropbtn">Fonts</button>
-      <div class="dropdown-content">
+      <div id="dropdown-fonts">
         <div class="fontFamily" id="Comic Sans MS,cursive,sans-serif">Comic Sans</div>
         <div class="fontFamily" id="Arial,Helvetica,sans-serif">Arial Helvetica</div>
         <div class="fontFamily" id="Courier New,Courier,monospace">Courier New</div>
@@ -115,5 +116,6 @@
         <div class="fontFamily" id="Times New Roman,Times,serif">Times New Roman</div>
       </div>
     </div>
+  </div>
   </body>
 </html>

@@ -7,20 +7,13 @@ import { BackgroundEdit, StickerEdit, SprayPaintEdit } from "./edit.js";
 import { PageEdits, PageList } from "./page.js";
 
 
-
-function cssOnClick(e) {
+function fontSelected(e) {
   console.log("css on click activated");
   chrome.tabs.executeScript(null,
     {code:"document.body.style." + e.target.className + "='" + e.target.id + "'"});
     window.close();
+ // node.nodeType ... type 3 is a text node
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-  console.log("css on click activated");
-  var divs = document.querySelectorAll('div');
-  for (var i = 0; i < divs.length; i++) {
-    divs[i].addEventListener('click', cssOnClick);
-  }
 
 function beginEditingPage(url) {
   /* Sets up a page to begin editing. If the page exists in the databases, adds
@@ -120,8 +113,10 @@ console.log(stickerCheckbox);
 var stickerSelect = document.querySelector("#sticker-select");
 var sprayPaintCheckbox = document.querySelector("#spray-paint-checkbox");
 var sprayPaintColorSelect = document.querySelector("#spray-paint-color-select");
+var fontSelect = document.querySelector("#dropdown-fonts");
 editPageCheckbox.addEventListener("click", editPageCheckboxClicked);
 stickerCheckbox.addEventListener("click", stickerCheckboxClicked);
 stickerSelect.addEventListener("input", stickerSelected);
 sprayPaintCheckbox.addEventListener("click", sprayPaintCheckboxClicked);
 sprayPaintColorSelect.addEventListener("input", sprayPaintColorSelected);
+fontSelect.addEventListener("click", fontSelected);
