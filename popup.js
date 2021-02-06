@@ -5,19 +5,22 @@
 
 import { BackgroundEdit, StickerEdit, SprayPaintEdit } from "./edit.js";
 import { PageEdits, PageList } from "./page.js";
-//
-// function cssOnClick(e) {
-//   chrome.tabs.executeScript(null,
-//     {code:"document.body.style." + e.target.className + "='" + e.target.id + "'"});
-//     window.close();
-// }
-//
-//
-// document.addEventListener('DOMContentLoaded', function () {
-//   var divs = document.querySelectorAll('div');
-//   for (var i = 0; i < divs.length; i++) {
-//     divs[i].addEventListener('click', cssOnClick);
-//   }
+
+
+
+function cssOnClick(e) {
+  console.log("css on click activated");
+  chrome.tabs.executeScript(null,
+    {code:"document.body.style." + e.target.className + "='" + e.target.id + "'"});
+    window.close();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  console.log("css on click activated");
+  var divs = document.querySelectorAll('div');
+  for (var i = 0; i < divs.length; i++) {
+    divs[i].addEventListener('click', cssOnClick);
+  }
 
 function beginEditingPage(url) {
   /* Sets up a page to begin editing. If the page exists in the databases, adds
