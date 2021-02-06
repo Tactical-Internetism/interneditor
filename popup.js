@@ -6,7 +6,6 @@
 import { BackgroundEdit, StickerEdit, SprayPaintEdit } from "./edit.js";
 import { PageEdits, PageList } from "./page.js";
 
-
 function beginEditingPage(url) {
   /* Sets up a page to begin editing. If the page exists in the databases, adds
     to the existing edits. If not, creates a new PageEdits object to track the 
@@ -34,8 +33,8 @@ function getPopupState() {
     addSticker: stickerCheckbox.checked,
     stickerValue: stickerSelect.value,
     addPaint: sprayPaintCheckbox.checked,
-    paintColor: sprayPaintColorSelect.value
-  }
+    paintColor: sprayPaintColorSelect.value,
+  };
 }
 
 function editPageCheckboxClicked(e) {
