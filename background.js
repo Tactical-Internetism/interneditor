@@ -69,7 +69,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
   } else if (request.request == "addEditToPage") {
     chrome.storage.sync.get(["popupState"], (results) => {
-      if (results.popupState.addSticker) {
+      console.log("results: " + results)
+      if (results.popupState.stickerRadioSelected) {
         addSticker(
           request.data.pageX,
           request.data.pageY,
@@ -77,7 +78,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           sender.tab.id,
           sender.tab.url
         );
-      } else if (results.popupState.addPaint) {
+      } else if (results.popupState.paintRadioSelected) {
         addPaint(
           request.data.pageX,
           request.data.pageY,

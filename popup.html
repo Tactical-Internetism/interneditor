@@ -6,66 +6,102 @@
     body {
       overflow: hidden;
       margin: 0px;
-      padding: 0px;
+      margin: 15px;
       background: white;
+      width: 400px;
     }
-
-    div:first-child {
-      margin-top: 0px;
+    .container {
+      display: grid;
+      grid-template-columns: 50% 50%;
     }
-
-    div.color {
-      cursor: pointer;
-      text-align: center;
-      padding: 1px 3px;
-      font-family: sans-serif;
-      font-size: 0.8em;
-      width: 100px;
-      margin-top: 1px;
-      background: #cccccc;
+    .item {
+      padding: 10px;
+      justify-self: center;
+      align-self: center;
     }
-    div.color:hover {
-      background: #aaaaaa;
+    .title {
+      grid-column-start: 1;
+      grid-column-end: 3;
     }
-    #red {
-      border: 1px solid red;
-      color: red;
+    .replace {
+      grid-column-start: 1;
+      grid-column-end: 3;
     }
-    #blue {
-      border: 1px solid blue;
-      color: blue;
+    .spraypaint {
+      grid-column-start: 1;
+      grid-column-end: 2;
     }
-    #green {
-      border: 1px solid green;
-      color: green;
+    .sticker {
+      grid-column-start: 2;
+      grid-column-end: 3;
     }
-    #yellow {
-      border: 1px solid yellow;
-      color: yellow;
+    .font {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+    .background {
+      grid-column-start: 2;
+      grid-column-end: 3;
     }
     </style>
     <script type="module" src="popup.js"></script>
   </head>
   <body>
-    <div id="edit-page"> Edit Page: <input type="checkbox" id="edit-page-checkbox" /></div>
-    <div id="stickers">
-      Sticker Mode: <input type="checkbox" id="sticker-checkbox" />
-      <select id="sticker-select" name="emojis">
-        <option value="&#9829"<>&#9829</option>
-        <option value="&#128514<">&#128514</option>
-        <option value="&#128558<">&#128558</option>
-        <option value="&#128546<">&#128546</option>
-        <option value="&#128544<">&#128544</option>
-        <option value="&#128077<">&#128077</option>
-        <option value="&#128078<">&#128078</option>
-      </select> 
-    </div>
-
-    <div id="spray-paint">
-      Spray Paint Mode: <input type="checkbox" id="spray-paint-checkbox"/>
-      <input type="color" 
-        id="spray-paint-color-select" name="spray-paint-color-select"
+    <div class="container">
+      <div class="item title">
+        Tactical Internetism
+      </div>
+      <div class="item replace">
+        Replace
+        <input type="text" class="replace-input" id="replace-fstring" name="fstring" size=15>
+        with
+        <input type="text" class="replace-input" id="replace-rstring" name="rstring" size=15>
+        <input type="button" class="replace-input" id="replace-apply"  value="Apply">
+      </div>
+      <div class="item spraypaint">
+        <input type="radio" id="spraypaint-radio" name="mouse-edit-select" value="spraypaint-edit"
+         checked>
+        <label for="spraypaint">
+          Spray Paint Mode
+          <input type="color" 
+            id="spraypaint-color-select" name="spraypaint-color-select"
+          value="#e66465">
+        </label>
+      </div>
+      <div class="item sticker">
+        <input type="radio" id="sticker-radio" name="mouse-edit-select" value="sticker-edit"
+         checked>
+          <label for="sticker">
+            Sticker Mode
+            <select id="sticker-select" name="emojis">
+              <option value="&#9829"<>&#9829</option>
+              <option value="&#128514">&#128514</option>
+              <option value="&#128558">&#128558</option>
+              <option value="&#128546">&#128546</option>
+              <option value="&#128544">&#128544</option>
+              <option value="&#128077">&#128077</option>
+              <option value="&#128078">&#128078</option>
+            </select>
+          </label>
+      </div>
+      <div class="item font">
+        Change Font
+        <select id="font-select" name="fonts">
+          <option value="Ariel"<>Ariel</option>
+          <option value="Helvetic">Helvetica</option>
+          <option value="Comic Sans">Comic Sans</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Ribeye">Ribeye</option>
+          <option value="Sedan SC">Sedan SC</option>
+          <option value="Zeyada">Zeyada</option>
+        </select> 
+      </div>
+      <div class="item background">
+        Change Background
+        <input type="color" 
+          id="background-color-select" name="background-color-select"
         value="#e66465">
-    </div>
+      </div>
+
   </body>
 </html>
