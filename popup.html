@@ -14,7 +14,7 @@
       margin-top: 0px;
     }
 
-    div {
+    div.color {
       cursor: pointer;
       text-align: center;
       padding: 1px 3px;
@@ -24,7 +24,7 @@
       margin-top: 1px;
       background: #cccccc;
     }
-    div:hover {
+    div.color:hover {
       background: #aaaaaa;
     }
     #red {
@@ -83,10 +83,33 @@
 
 
     </style>
-    <script src="popup.js"></script>
+    <script type="module" src="popup.js"></script>
   </head>
   <body>
-    <div class="backgroundColor" id="red">red</div>
+    <div id="edit-page"> Edit Page: <input type="checkbox" id="edit-page-checkbox" /></div>
+    <div id="stickers">
+      Sticker Mode: <input type="checkbox" id="sticker-checkbox" />
+      <select id="sticker-select" name="emojis">
+        <option value="&#9829">&#9829</option>
+        <option value="&#128514">&#128514</option>
+        <option value="&#128558">&#128558</option>
+        <option value="&#128546">&#128546</option>
+        <option value="&#128544">&#128544</option>
+        <option value="&#128077">&#128077</option>
+        <option value="&#128078">&#128078</option>
+      </select>
+    </div>
+
+    <div id="spray-paint">
+      Spray Paint Mode: <input type="checkbox" id="spray-paint-checkbox"/>
+      <input type="color"
+        id="spray-paint-color-select" name="spray-paint-color-select"
+        value="#e66465">
+    </div>
+  </body>
+</html>
+
+    <!-- <div class="backgroundColor" id="red">red</div>
     <div class="backgroundColor" id="blue">blue</div>
     <div class="backgroundColor" id="green">green</div>
     <div class="backgroundColor" id="yellow">yellow</div>
@@ -98,7 +121,4 @@
         <div class="fontFamily" id="Courier New,Courier,monospace">Courier New</div>
         <div class="fontFamily" id="Impact,Charcoal,sans-serif">Impact</div>
         <div class="fontFamily" id="Times New Roman,Times,serif">Times New Roman</div>
-      </div>
-    </div>
-  </body>
-</html>
+      </div> -->
