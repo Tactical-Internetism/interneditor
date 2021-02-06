@@ -10,8 +10,12 @@ function saveEditToPage(edit, url) {
     var chromePagesStorage = results.userPageList;
     var userPageList = new PageList(chromePagesStorage);
     var page = userPageList.findPageByURL(url);
+    if (!page) {
+      page = new PageEdits(url);
+    } else {
+      userPageList.removePageByURL(url);
+    }
     page.edits.push(edit);
-    userPageList.removePageByURL(url);
     userPageList.addPage(page);
     chrome.storage.sync.set({ userPageList: userPageList });
   });
@@ -46,9 +50,10 @@ console.log("background js running");
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   console.log("sender:", sender);
   console.log("request:", request);
-  
-  if (!sender.tab) { // maybe some alternative logic
-      // from popup
+
+  if (!sender.tab) {
+    // maybe some alternative logic
+    // from popup
     if (request === "getPopupState") {
       chrome.storage.sync.get(["popupState"], (results) => {
         console.log(results);
