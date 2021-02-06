@@ -99,6 +99,7 @@
         <option value="&#128077">&#128077</option>
         <option value="&#128078">&#128078</option>
       </select>
+    </div>
 
     <div id="spray-paint">
       Spray Paint Mode: <input type="checkbox" id="spray-paint-checkbox"/>
@@ -106,15 +107,17 @@
         id="spray-paint-color-select" name="spray-paint-color-select"
         value="#e66465">
     </div>
-    <div class="dropdown">
-      <button class="dropbtn">Fonts</button>
-      <div id="dropdown-fonts">
-        <div class="fontFamily" id="Comic Sans MS,cursive,sans-serif">Comic Sans</div>
-        <div class="fontFamily" id="Arial,Helvetica,sans-serif">Arial Helvetica</div>
-        <div class="fontFamily" id="Courier New,Courier,monospace">Courier New</div>
-        <div class="fontFamily" id="Impact,Charcoal,sans-serif">Impact</div>
-        <div class="fontFamily" id="Times New Roman,Times,serif">Times New Roman</div>
-      </div>
+
+    <div id="font">
+      Font:
+      <select id="font-select" name="font-families">
+        <option disabled selected value="default">Default</option>
+        <option value="Comic Sans MS,cursive,sans-serif">Comic Sans</option>
+        <option value="Arial,Helvetica,sans-serif">Arial Helvetica</option>
+        <option value="Courier New,Courier,monospace">Courier New</option>
+        <option value="Impact,Charcoal,sans-serif">Impact</option>
+        <option value="Times New Roman,Times,serif">Times New Roman</option>
+      </select>
     </div>
   </div>
   </body>

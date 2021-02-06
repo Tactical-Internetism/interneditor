@@ -3,39 +3,6 @@
 // found in the LICENSE file.
 "use strict";
 
-import { BackgroundEdit, StickerEdit, SprayPaintEdit } from "./edit.js";
-import { PageEdits, PageList } from "./page.js";
-
-
-function fontSelected(e) {
-  console.log("css on click activated");
-  chrome.tabs.executeScript(null,
-    {code:"document.body.style." + e.target.className + "='" + e.target.id + "'"});
-    window.close();
- // node.nodeType ... type 3 is a text node
-}
-
-function beginEditingPage(url) {
-  /* Sets up a page to begin editing. If the page exists in the databases, adds
-    to the existing edits. If not, creates a new PageEdits object to track the
-    edits on the page.
-    */
-  console.log("popup url: " + url);
-  chrome.storage.sync.get(["userPageList"], function (results) {
-    var chromePagesStorage = results.userPageList;
-    var userPageList = new PageList(chromePagesStorage);
-    var page = userPageList.findPageByURL(url);
-    if (!page) {
-      page = new PageEdits(url);
-      userPageList.addPage(page);
-      chrome.storage.sync.set({ userPageList: userPageList });
-    }
-    chrome.storage.sync.set({ currPage: page });
-  });
-  setIconActionEventListeners();
-  beginListeningForWindowClicks();
-}
-
 function getPopupState() {
   return {
     isEditing: editPageCheckbox.checked,
@@ -43,6 +10,7 @@ function getPopupState() {
     stickerValue: stickerSelect.value,
     addPaint: sprayPaintCheckbox.checked,
     paintColor: sprayPaintColorSelect.value,
+    fontFamily: fontSelect.value,
   };
 }
 
@@ -81,12 +49,13 @@ function sprayPaintColorSelected(e) {
   chrome.runtime.sendMessage({ popupState: popupState });
 }
 
-console.log("popup js running");
+function fontSelected(e) {
+  console.log("fontSelected: ", e.target.value);
+  var popupState = getPopupState();
+  chrome.runtime.sendMessage({ popupState: popupState, fontChanged: true });
+}
 
-var popupOptions = {
-  currPageEdit: false,
-  stickers: false,
-};
+console.log("popup js running");
 
 // chrome.runtime.onConnect.addListener(function(port) {
 //     console.assert(port.name == "popup");
@@ -113,10 +82,10 @@ console.log(stickerCheckbox);
 var stickerSelect = document.querySelector("#sticker-select");
 var sprayPaintCheckbox = document.querySelector("#spray-paint-checkbox");
 var sprayPaintColorSelect = document.querySelector("#spray-paint-color-select");
-var fontSelect = document.querySelector("#dropdown-fonts");
+var fontSelect = document.querySelector("#font-select");
 editPageCheckbox.addEventListener("click", editPageCheckboxClicked);
 stickerCheckbox.addEventListener("click", stickerCheckboxClicked);
 stickerSelect.addEventListener("input", stickerSelected);
 sprayPaintCheckbox.addEventListener("click", sprayPaintCheckboxClicked);
 sprayPaintColorSelect.addEventListener("input", sprayPaintColorSelected);
-fontSelect.addEventListener("click", fontSelected);
+fontSelect.addEventListener("input", fontSelected);
