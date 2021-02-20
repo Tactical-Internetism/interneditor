@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import { BackgroundEdit, StickerEdit } from "./edit.js";
+import { BackgroundEdit, FontEdit, StickerEdit } from "./edit.js";
 import { PageEdits, PageList } from "./page.js";
 
 function saveEditToPage(edit, url) {
@@ -29,6 +29,15 @@ function addSticker(pageX, pageY, sticker, tabId, url) {
     sticker: sticker,
   };
   var edit = new StickerEdit(contents);
+  edit.editPage(tabId);
+  saveEditToPage(edit, url);
+}
+
+function changeFont(fontFamily, tabId, url) {
+  var contents = {
+    fontFamily: fontFamily,
+  };
+  var edit = new FontEdit(contents);
   edit.editPage(tabId);
   saveEditToPage(edit, url);
 }
@@ -66,6 +75,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           console.log("set popupState to: ", request.popupState);
         });
       }
+
+      if (request.fontChanged) {
+        getCurrentTab((tab) => {
+          changeFont(request.popupState.fontFamily, tab.id, tab.url);
+        });
+      }
     }
   } else if (request.request == "addEditToPage") {
     chrome.storage.sync.get(["popupState"], (results) => {
@@ -97,3 +112,9 @@ chrome.webNavigation.onDOMContentLoaded.addListener(function (details) {
   loadStoredEditsToPage(details.url, details.tabId);
   chrome.tabs.executeScript(details.tabId, { file: "content.js" });
 });
+
+function getCurrentTab(tabCallback) {
+  chrome.tabs.query({ currentWindow: true, active: true }, function (tabArray) {
+    tabCallback(tabArray[0]);
+  });
+}

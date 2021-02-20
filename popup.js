@@ -7,11 +7,12 @@ function getPopupState() {
   return {
     replaceFString: replaceFindStringField.value,
     replaceRString: replaceReplaceStringField.value,
-    
+
     stickerRadioSelected: stickerRadio.checked,
     stickerValue: stickerSelect.value,
     paintRadioSelected: spraypaintRadio.checked,
     paintColor: spraypaintColorSelect.value,
+    fontFamily: fontSelect.value,
 
     font: fontSelect.value,
   }
@@ -23,20 +24,25 @@ function setPopupState(e) {
   chrome.runtime.sendMessage({ popupState: popupState });
 }
 
+function fontSelected(e) {
+  console.log("fontSelected: ", e.target.value);
+  var popupState = getPopupState();
+  chrome.runtime.sendMessage({ popupState: popupState, fontChanged: true });
+}
+
 console.log("popup js running");
 
-
 chrome.runtime.sendMessage("getPopupState", function (response) {
-  console.log("message response:", response)
-  replaceFindStringField.value = response.popupState.replaceFString
-  replaceReplaceStringField.value = response.popupState.replaceRString
-  
-  stickerRadio.checked = response.popupState.stickerRadioSelected
-  stickerSelect.value = response.popupState.stickerValue
-  spraypaintRadio.checked = response.popupState.paintRadioSelected
-  spraypaintColorSelect.value = response.popupState.paintColor
+  console.log("message response:", response);
+  replaceFindStringField.value = response.popupState.replaceFString;
+  replaceReplaceStringField.value = response.popupState.replaceRString;
 
-  fontSelect.value = response.popupState.font 
+  stickerRadio.checked = response.popupState.stickerRadioSelected;
+  stickerSelect.value = response.popupState.stickerValue;
+  spraypaintRadio.checked = response.popupState.paintRadioSelected;
+  spraypaintColorSelect.value = response.popupState.paintColor;
+
+  fontSelect.value = response.popupState.fontFamily;
 });
 
 // Replace
@@ -50,7 +56,7 @@ var spraypaintRadio = document.querySelector("#spraypaint-radio");
 var spraypaintColorSelect = document.querySelector("#spraypaint-color-select");
 spraypaintRadio.addEventListener("click", setPopupState);
 spraypaintColorSelect.addEventListener("input", setPopupState);
-console.log(spraypaintRadio)
+console.log(spraypaintRadio);
 
 var stickerRadio = document.querySelector("#sticker-radio");
 var stickerSelect = document.querySelector("#sticker-select");
@@ -59,5 +65,4 @@ stickerSelect.addEventListener("input", setPopupState);
 
 // Font change
 var fontSelect = document.querySelector("#font-select");
-fontSelect.addEventListener("input", setPopupState);
-
+fontSelect.addEventListener("input", fontSelected);
