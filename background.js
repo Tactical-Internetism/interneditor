@@ -63,6 +63,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (!sender.tab) {
     // maybe some alternative logic
     // from popup
+    if (request === "popupOpened") {
+      console.log("popup opened")
+    }
     if (request === "getPopupState") {
       chrome.storage.sync.get(["popupState"], (results) => {
         console.log(results);

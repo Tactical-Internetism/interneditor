@@ -32,6 +32,10 @@ function fontSelected(e) {
 
 console.log("popup js running");
 
+chrome.runtime.sendMessage("popupOpened", function (response) {
+  console.log("back to popup")
+})
+
 chrome.runtime.sendMessage("getPopupState", function (response) {
   console.log("message response:", response);
   replaceFindStringField.value = response.popupState.replaceFString;

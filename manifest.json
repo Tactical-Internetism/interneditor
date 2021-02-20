@@ -8,6 +8,7 @@
       "webNavigation",
       "<all_urls>"
     ],
+    "web_accessible_resources": ["toolbar.html"],
     "background" : {
         "page": "background.html",
         "persistent": false

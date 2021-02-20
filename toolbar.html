@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Set Page Color Popup</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <style>
+    body {
+      overflow: hidden;
+      margin: 0px;
+      margin: 15px;
+      background: white;
+      width: 400px;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 50% 50%;
+    }
+    .item {
+      padding: 10px;
+      justify-self: center;
+      align-self: center;
+    }
+    .title {
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
+    .replace {
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
+    .spraypaint {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+    .sticker {
+      grid-column-start: 2;
+      grid-column-end: 3;
+    }
+    .font {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+    .revert {
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
+
+/* Dropdown Button */
+.dropbtn {
+  color: black;
+  font-size: 0.8em;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+#dropdown-fonts {
+  display: none;
+  position: absolute;
+
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+#dropdown-fonts a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+#dropdown-fonts a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover #dropdown-fonts {display: block;}
+
+
+    </style>
+    <script type="module" src="popup.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="item title">
+        Tactical Internetism
+      </div>
+      <div class="item replace">
+        Replace
+        <input type="text" class="replace-input" id="replace-fstring" name="fstring" size=15>
+        with
+        <input type="text" class="replace-input" id="replace-rstring" name="rstring" size=15>
+        <input type="button" class="btn btn-secondary replace-input" id="replace-apply"  value="Apply">
+      </div>
+      <div class="item spraypaint">
+        <input
+          type="radio"
+          class="btn-check"
+          id="spraypaint-radio"
+          name="mouse-edit-select"
+          value="spraypaint-edit"
+          checked
+        >
+        <label
+          class="btn btn-outline-primary"
+          for="spraypaint-radio"
+        >
+          Spray Paint Mode
+          <input
+            type="color" 
+            id="spraypaint-color-select"
+            name="spraypaint-color-select"
+            value="#e66465"
+          >
+        </label>
+      </div>
+      <div class="item sticker">
+        <input
+           type="radio"
+           class="btn-check"
+           id="sticker-radio"
+           autocomplete="off"
+           name="mouse-edit-select"
+           value="sticker-edit"
+        >
+          <label
+            type="button"
+            class="btn btn-outline-primary"
+            for="sticker-radio"
+          >
+            Sticker Mode
+            <select id="sticker-select" name="emojis">
+              <option value="&#9829">&#9829</option>
+              <option value="&#128514">&#128514</option>
+              <option value="&#128558">&#128558</option>
+              <option value="&#128546">&#128546</option>
+              <option value="&#128544">&#128544</option>
+              <option value="&#128077">&#128077</option>
+              <option value="&#128078">&#128078</option>
+            </select>
+          </label>
+      </div>
+      <div class="item font">
+        Set Font
+        <select id="font-select" name="fonts">
+          <option value="Arial,Helvetica,sans-serif">Ariel / Helvetica</option>
+          <option value="Comic Sans MS,cursive,sans-serif">Comic Sans</option>
+          <option value="Times New Roman,Times,serif">Times New Roman</option>
+          <option value="Courier New,Courier,monospace">Courier New</option>
+          <option value="Impact,Charcoal,sans-serif">Impact</option>
+          <option value="Ribeye,fantasy,serif">Ribeye</option>
+          <option value="Sedan SC,serif">Sedan SC</option>
+          <option value="Zeyada,cursive,sans-serif">Zeyada</option>
+        </select> 
+      </div>
+      <div class="item revert">
+        <input type="button" class="btn btn-light revert-button" id="revert-undo"  value="Undo">
+        <input type="button" class="btn btn-danger revert-button" id="revert-clear"  value="Clear">
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+  </body>
+</html>
