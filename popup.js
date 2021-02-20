@@ -14,9 +14,6 @@ function getPopupState() {
     paintColor: spraypaintColorSelect.value,
 
     font: fontSelect.value,
-
-    backgroundColor: backgroundColorSelect.value
-
   }
 }
 
@@ -40,8 +37,6 @@ chrome.runtime.sendMessage("getPopupState", function (response) {
   spraypaintColorSelect.value = response.popupState.paintColor
 
   fontSelect.value = response.popupState.font 
-
-  backgroundColorSelect.value = response.popupState.backgroundColor
 });
 
 // Replace
@@ -65,8 +60,4 @@ stickerSelect.addEventListener("input", setPopupState);
 // Font change
 var fontSelect = document.querySelector("#font-select");
 fontSelect.addEventListener("input", setPopupState);
-
-//Bachground change
-var backgroundColorSelect = document.querySelector("#background-color-select")
-backgroundColorSelect.addEventListener("input", setPopupState);
 

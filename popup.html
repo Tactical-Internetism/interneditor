@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Set Page Color Popup</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <style>
     body {
       overflow: hidden;
@@ -39,8 +40,8 @@
       grid-column-start: 1;
       grid-column-end: 2;
     }
-    .background {
-      grid-column-start: 2;
+    .revert {
+      grid-column-start: 1;
       grid-column-end: 3;
     }
     </style>
@@ -56,22 +57,44 @@
         <input type="text" class="replace-input" id="replace-fstring" name="fstring" size=15>
         with
         <input type="text" class="replace-input" id="replace-rstring" name="rstring" size=15>
-        <input type="button" class="replace-input" id="replace-apply"  value="Apply">
+        <input type="button" class="btn btn-secondary replace-input" id="replace-apply"  value="Apply">
       </div>
       <div class="item spraypaint">
-        <input type="radio" id="spraypaint-radio" name="mouse-edit-select" value="spraypaint-edit"
-         checked>
-        <label for="spraypaint">
+        <input
+          type="radio"
+          class="btn-check"
+          id="spraypaint-radio"
+          name="mouse-edit-select"
+          value="spraypaint-edit"
+          checked
+        >
+        <label
+          class="btn btn-outline-primary"
+          for="spraypaint-radio"
+        >
           Spray Paint Mode
-          <input type="color" 
-            id="spraypaint-color-select" name="spraypaint-color-select"
-          value="#e66465">
+          <input
+            type="color" 
+            id="spraypaint-color-select"
+            name="spraypaint-color-select"
+            value="#e66465"
+          >
         </label>
       </div>
       <div class="item sticker">
-        <input type="radio" id="sticker-radio" name="mouse-edit-select" value="sticker-edit"
-         checked>
-          <label for="sticker">
+        <input
+           type="radio"
+           class="btn-check"
+           id="sticker-radio"
+           autocomplete="off"
+           name="mouse-edit-select"
+           value="sticker-edit"
+        >
+          <label
+            type="button"
+            class="btn btn-outline-primary"
+            for="sticker-radio"
+          >
             Sticker Mode
             <select id="sticker-select" name="emojis">
               <option value="&#9829"<>&#9829</option>
@@ -85,7 +108,7 @@
           </label>
       </div>
       <div class="item font">
-        Change Font
+        Set Font
         <select id="font-select" name="fonts">
           <option value="Ariel"<>Ariel</option>
           <option value="Helvetic">Helvetica</option>
@@ -96,12 +119,10 @@
           <option value="Zeyada">Zeyada</option>
         </select> 
       </div>
-      <div class="item background">
-        Change Background
-        <input type="color" 
-          id="background-color-select" name="background-color-select"
-        value="#e66465">
+      <div class="item revert">
+        <input type="button" class="btn btn-light revert-button" id="revert-undo"  value="Undo">
+        <input type="button" class="btn btn-danger revert-button" id="revert-clear"  value="Clear">
       </div>
-
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
   </body>
 </html>

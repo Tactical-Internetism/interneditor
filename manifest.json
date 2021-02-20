@@ -12,6 +12,7 @@
         "page": "background.html",
         "persistent": false
     },
+      "content_security_policy": "script-src 'self' https://cdn.jsdelivr.net; object-src 'self'",
     "browser_action": {
         "default_title": "Set this page's color.",
         "default_icon": "icon.png",
