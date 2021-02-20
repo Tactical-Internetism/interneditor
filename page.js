@@ -60,6 +60,8 @@ export class PageEdits {
           edit = new StickerEdit(edit.contents);
         } else if (edit.type == "font") {
           edit = new FontEdit(edit.contents);
+        } else if (edit.type == "replace") {
+          edit = new TextReplaceEdit(edit.contents);
         } else {
           throw "Edit type not defined";
         }

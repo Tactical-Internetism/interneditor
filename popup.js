@@ -15,19 +15,16 @@ function getPopupState() {
     fontFamily: fontSelect.value,
 
     font: fontSelect.value,
-  }
+  };
 }
 
-function setPopupState(e) {
+function setPopupState(e, stateChange) {
   console.log("event: ", e);
   var popupState = getPopupState();
-  chrome.runtime.sendMessage({ popupState: popupState });
-}
-
-function fontSelected(e) {
-  console.log("fontSelected: ", e.target.value);
-  var popupState = getPopupState();
-  chrome.runtime.sendMessage({ popupState: popupState, fontChanged: true });
+  chrome.runtime.sendMessage({
+    popupState: popupState,
+    stateChange: stateChange,
+  });
 }
 
 console.log("popup js running");
@@ -49,7 +46,10 @@ chrome.runtime.sendMessage("getPopupState", function (response) {
 var replaceFindStringField = document.querySelector("#replace-fstring");
 var replaceReplaceStringField = document.querySelector("#replace-rstring");
 var replaceApplyButton = document.querySelector("#replace-apply");
-replaceApplyButton.addEventListener("input", setPopupState);
+replaceApplyButton.addEventListener("click", (e) => {
+  console.log("asdf");
+  setPopupState(e, "replace string");
+});
 
 // Mouse edits
 var spraypaintRadio = document.querySelector("#spraypaint-radio");
@@ -65,4 +65,6 @@ stickerSelect.addEventListener("input", setPopupState);
 
 // Font change
 var fontSelect = document.querySelector("#font-select");
-fontSelect.addEventListener("input", fontSelected);
+fontSelect.addEventListener("input", (e) => {
+  setPopupState(e, "font");
+});

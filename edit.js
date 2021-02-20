@@ -102,29 +102,92 @@ export class FontEdit extends Edit {
 
   editPage(tabId) {
     var script = `
-    function walk(node, currKey) {
-        // I stole this function from here:
-        // http://is.gd/mwZp7E
-    
-        var child, next;
-    
-        switch (node.nodeType) {
-        case 1: // Element
-            node.style.fontFamily = "${this.contents.fontFamily}";
-        case 9: // Document
-        case 11: // Document fragment
-            child = node.firstChild;
-            while (child) {
-                next = child.nextSibling;
-                walk(child);
-                child = next;
-            }
-            break;
-        }
-    }
-    
-    walk(document);
-  `;
+      function walk(node, currKey) {
+          // I stole this function from here:
+          // http://is.gd/mwZp7E
+      
+          var child, next;
+      
+          switch (node.nodeType) {
+          case 1: // Element
+              node.style.fontFamily = "${this.contents.fontFamily}";
+          case 9: // Document
+          case 11: // Document fragment
+              child = node.firstChild;
+              while (child) {
+                  next = child.nextSibling;
+                  walk(child);
+                  child = next;
+              }
+              break;
+          }
+      }
+      
+      walk(document);
+    `;
+    chrome.tabs.executeScript(tabId, {
+      code: script,
+    });
+  }
+}
+
+export class TextReplaceEdit extends Edit {
+  constructor(contents) {
+    super(contents);
+    this.type = "replace";
+  }
+
+  editPage(tabId) {
+    var script = `
+      console.log("textreplace running...");
+      function walk(node) 
+      {
+          // I stole this function from here:
+          // http://is.gd/mwZp7E
+          
+          var child, next;
+          
+          var tagName = node.tagName ? node.tagName.toLowerCase() : "";
+          if (tagName == 'input' || tagName == 'textarea') {
+              return;
+          }
+          if (node.classList && node.classList.contains('ace_editor')) {
+              return;
+          }
+      
+          switch ( node.nodeType )  
+          {
+              case 1:  // Element
+              case 9:  // Document
+              case 11: // Document fragment
+                  child = node.firstChild;
+                  while ( child ) 
+                  {
+                      next = child.nextSibling;
+                      walk(child);
+                      child = next;
+                  }
+                  break;
+      
+              case 3: // Text node
+                  handleText(node);
+                  break;
+          }
+      }
+      
+      function handleText(textNode) 
+      {
+          console.log(textNode.nodeType);
+          var v = textNode.nodeValue;
+          console.log(v);
+          v = v.replace(/\\b${this.contents.replaceFString}\\b/ig, "${this.contents.replaceRString}");
+          console.log(v);
+          
+          textNode.nodeValue = v;
+      }
+
+      walk(document.body);
+    `;
     chrome.tabs.executeScript(tabId, {
       code: script,
     });

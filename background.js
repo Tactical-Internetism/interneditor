@@ -2,7 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import { BackgroundEdit, FontEdit, StickerEdit } from "./edit.js";
+import {
+  BackgroundEdit,
+  FontEdit,
+  StickerEdit,
+  TextReplaceEdit,
+} from "./edit.js";
 import { PageEdits, PageList } from "./page.js";
 
 function saveEditToPage(edit, url) {
@@ -42,6 +47,17 @@ function changeFont(fontFamily, tabId, url) {
   saveEditToPage(edit, url);
 }
 
+function textReplace(replaceFString, replaceRString, tabId, url) {
+  var contents = {
+    replaceFString: replaceFString,
+    replaceRString: replaceRString,
+  };
+  console.log("textReplace contents:", contents);
+  var edit = new TextReplaceEdit(contents);
+  edit.editPage(tabId);
+  saveEditToPage(edit, url);
+}
+
 function loadStoredEditsToPage(url, tabId) {
   chrome.storage.sync.get(["userPageList"], function (results) {
     var chromePagesStorage = results.userPageList;
@@ -76,15 +92,24 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         });
       }
 
-      if (request.fontChanged) {
+      if (request.stateChange === "font") {
         getCurrentTab((tab) => {
           changeFont(request.popupState.fontFamily, tab.id, tab.url);
         });
+      } else if (request.stateChange === "replace string") {
+        getCurrentTab((tab) => {
+          textReplace(
+            request.popupState.replaceFString,
+            request.popupState.replaceRString,
+            tab.id,
+            tab.url
+          );
+        });
       }
     }
-  } else if (request.request == "addEditToPage") {
+  } else if (request.request == "mouseClick") {
     chrome.storage.sync.get(["popupState"], (results) => {
-      console.log("results: " + results)
+      console.log("results: " + results);
       if (results.popupState.stickerRadioSelected) {
         addSticker(
           request.data.pageX,
@@ -94,6 +119,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           sender.tab.url
         );
       } else if (results.popupState.paintRadioSelected) {
+        /*
         addPaint(
           request.data.pageX,
           request.data.pageY,
@@ -101,6 +127,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           sender.tab.id,
           sender.tab.url
         );
+        */
       }
     });
   }
@@ -108,7 +135,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 chrome.webNavigation.onDOMContentLoaded.addListener(function (details) {
-  console.log("background url: " + details.url);
   loadStoredEditsToPage(details.url, details.tabId);
   chrome.tabs.executeScript(details.tabId, { file: "content.js" });
 });
